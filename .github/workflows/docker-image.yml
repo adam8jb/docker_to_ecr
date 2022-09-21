@@ -10,24 +10,24 @@ jobs:
 
   steps:
    - name: Configure AWS credentials
-   uses: aws-actions/configure-aws-credentials@v1
-   with:
-    access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    region: eu-west-2
+    uses: aws-actions/configure-aws-credentials@v1
+    with:
+     access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+     secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+     region: eu-west-2
 
    - name: Login to ECR
-   id: login-ecr
-   uses: aws-actions/amazon-ecr-login@v1
+    id: login-ecr
+    uses: aws-actions/amazon-ecr-login@v1
 
    - name: Build, tag and push to ECR
-   env: 
-    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-    ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY}}
-    IMAGE_TAG: ${{ github.sha }}
-   run: |
-    docker build --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-    docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+    env: 
+     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+     ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY}}
+     IMAGE_TAG: ${{ github.sha }}
+    run: |
+     docker build --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
    - name: log out of ECR
    if: always()
