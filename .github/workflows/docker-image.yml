@@ -27,7 +27,11 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         pwd
-        ls
+        ls -la
+        find . -name "*Dockerfile*"
+        cd /
+        pwd
+        find . -name "*Dockerfile*"
         docker build --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
